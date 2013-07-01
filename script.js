@@ -17,6 +17,10 @@ window.onload = function() {
   webcam.start();
 
   pictureButton.addEventListener("click", function() {
+    webcam.capture();
+  });
+
+  stopButton.addEventListener("click", function() {
     webcam.end();
   });
 };

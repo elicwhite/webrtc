@@ -3,14 +3,41 @@
 	<head>
 		<title>Untitled</title>
 		<style type="text/css">
+			#container {
+				position: relative;
+			}
+
+			#overlay, #video {
+				width: 500px;
+				height: 375px;
+			}
+
+			#overlay {
+				position: absolute;
+				top: 0px;
+			}
+
+			.clear {
+				clear: both;
+			}
+
 		</style>
 		<script src="webcam.js"></script>
 		<script src="script.js"></script>
 	</head>
 <body>
-    <video id="video"></video>
-	<button id="takePicture">Take photo</button>
-	<button id="stop">Stop</button>
+	<div id="container">
+	    <video id="video"></video>
+	    <div id="overlay">
+	    	<span>omgosh this is so much text that is in this box right now. Can you even believe how much is going into this spot? It's like a crazy overlay on top of this video. I don't even think I can come up with enough words to really fill it up. But I must. The world depends on it. Save the cheerleader, save the world.</span>
+	    </div>
+	</div>
 	<canvas id="canvas"></canvas> 
+	<hr />
+	<div class="clear">
+		<button id="takePicture">Take photo</button>
+		<button id="stop">Stop</button>
+		
+	</div>
 </body>
 </html> 

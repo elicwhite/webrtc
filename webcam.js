@@ -3,10 +3,6 @@ function Webcam(vidElement, canvasElement) {
 
 	var initialized = false;
 
-	// Different browsers use different resolutions, we set height later based on ratio
-	var width = 320;
-	var height = 0;
-
 	var streaming = false;
 
 	// The actual video stream
@@ -18,8 +14,6 @@ function Webcam(vidElement, canvasElement) {
 			navigator.webkitGetUserMedia || navigator.msGetUserMedia);
 
 		initialized = true;
-
-
 	}
 
 	self.isSupported = function() {
@@ -53,6 +47,7 @@ function Webcam(vidElement, canvasElement) {
 				var vendorURL = window.URL || window.webkitURL;
 				vidElement.src = vendorURL.createObjectURL(stream);
 			}
+			streaming = true;
 			vidElement.play();
 		}, function error(error) {
 			console.log("An error occured starting the stream")
@@ -61,11 +56,31 @@ function Webcam(vidElement, canvasElement) {
 	}
 
 	self.end = function() {
+		if (!initialized) {
+			console.error("initialize() must be called first");
+			return;
+		}
+
+		if (!streaming) {
+			console.error("Must be streaming to end the stream");
+			return;
+		}
+
 		vidElement.src = "";
 		stream.stop();
 	}
 
 	self.capture = function() {
+		if (!initialized) {
+			console.error("initialize() must be called first");
+			return;
+		}
+
+		if (!streaming) {
+			console.error("Must be streaming to capture images");
+			return;
+		}
+
 		// This is likely unnecessary since we already set this in
 		// the canplay event listener
 		canvasElement.width = width;
@@ -78,15 +93,4 @@ function Webcam(vidElement, canvasElement) {
 
 	    return data;
 	}
-
-	vidElement.addEventListener('canplay', function(ev) {
-		if (!streaming) {
-			height = vidElement.videoHeight / (vidElement.videoWidth / width);
-			vidElement.setAttribute('width', width);
-			vidElement.setAttribute('height', height);
-			canvasElement.setAttribute('width', width);
-			canvasElement.setAttribute('height', height);
-			streaming = true;
-		}
-	}, false);
 }
